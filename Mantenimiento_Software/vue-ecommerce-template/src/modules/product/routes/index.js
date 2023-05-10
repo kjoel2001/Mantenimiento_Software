@@ -34,4 +34,9 @@ export default [
     name: 'Mandos',
     component: () => import(/* webpackChunkName: "mandos" */ '../pages/Mandos.vue')
   },
+  {
+    path: '/productos',
+    name: 'Productos',
+    component: () => import(/* webpackChunkName: "productos" */ '../pages/Productos.vue')
+  },
 ]

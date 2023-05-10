@@ -24,6 +24,11 @@
                   >Inicio</router-link
                 >
               </li>
+              <li class="navbar__item">
+                <router-link :to="{ name: 'Productos' }" class="navbar__link"
+                  >Productos</router-link
+                >
+              </li> 
               <li class="navbar__item navbar__item--has-sub">
                 <a @click.prevent href="" class="navbar__link">Categorias</a>
                 <ul class="navbar__subset">
