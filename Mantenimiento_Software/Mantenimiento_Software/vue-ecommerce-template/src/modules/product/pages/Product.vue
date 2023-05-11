@@ -204,12 +204,14 @@ export default {
 
   async created() {
     this.countDownInterval = setInterval(() => {
+    if (this.dateCountDown) {
       let diffTime = this.dateCountDown.diff(moment())
       let durationTime = moment.duration(diffTime)
       this.diff = `${Math.floor(
         durationTime.asDays()
       )}:${durationTime.hours()}:${durationTime.minutes()}:${durationTime.seconds()}`
-    }, 1000)
+    }
+  }, 1000)
 
     this.product = this.$store.getters['products/getProductById'](
       parseInt(this.$route.params.id)

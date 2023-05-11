@@ -39,6 +39,19 @@
                   <input type="number" id="maxPrice" v-model="maxPrice" min="0" />
                 </div>
               </div>
+              <div class="filter__item">
+  <label for="productType">Tipo de producto:</label>
+  <select id="productType" v-model="selectedType" class="filter__select">
+    <option value="">Todos</option>
+    <option value="juegos">Juegos</option>
+    <option value="consolas">Consolas</option>
+    <option value="perifericos">Periféricos</option>
+    <option value="mandos">Mandos</option>
+  </select>
+</div>
+
+
+
             </ul>
             <div class="products">
               <router-link
@@ -83,6 +96,7 @@ export default {
       minPrice: null,
       maxPrice: null,
       selectedType: "",
+      
     };
   },
   methods: {
@@ -117,14 +131,14 @@ export default {
   },
   computed: {
     filteredProducts() {
-      return this.products.filter((product) => {
-        return (
-          product.name.toLowerCase().includes(this.searchText.toLowerCase()) &&
-          this.filterByPrice(product) &&
-          this.filterByType(product)
-        );
-      });
-    },
+    return this.products.filter((product) => {
+      return (
+        product.name.toLowerCase().includes(this.searchText.toLowerCase()) &&
+        this.filterByPrice(product) &&
+        this.filterByType(product)
+      );
+    });
+  },
     productTypes() {
       const types = new Set();
       this.products.forEach((product) => types.add(product.type));
@@ -142,4 +156,9 @@ export default {
   .page {
     justify-content: center;
   }
+  .filter__select {
+  width: 200px;
+  padding: 5px;
+}
+
   </style>

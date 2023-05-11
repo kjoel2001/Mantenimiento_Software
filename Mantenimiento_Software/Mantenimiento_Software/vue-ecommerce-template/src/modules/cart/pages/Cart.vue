@@ -40,8 +40,14 @@
                   <td class="text-blue">{{ formattedPrice(total) }}</td>
                 </tr>
               </tbody>
-            </table>
-            <button class="btn btn--brand btn--boxshadow">enviar</button>
+            </table> 
+            <input
+              type="text"
+              placeholder="Ingresar correo"
+              class="cart__coupon-input"
+              v-model="correoDestinatario"
+            />  
+            <button class="btn-coupon" @click="enviarCorreo">Enviar</button>
           </div>
         </div>
       </div>
@@ -50,11 +56,16 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { mapState, mapGetters } from 'vuex'
 import CartItem from '../components/CartItem'
 export default {
   name: 'Cart',
-
+  data() {
+    return {
+      correoDestinatario: '' // Valor inicial vacío
+    };
+  },
   components: {
     CartItem
   },
@@ -64,6 +75,37 @@ export default {
     ...mapGetters('cart', ['subtotal', 'tax', 'total'])
   },
   methods: {
+      enviarCorreo() {
+  // Construir el contenido del correo con los detalles de los productos
+  let contenidoCorreo = 'Detalles de los productos:\n';
+  this.items.forEach((item) => {
+    contenidoCorreo += `Producto: ${item.name}, Precio: ${item.price}\n`;
+  });   
+
+  // Agregar el total al contenido del correo
+  contenidoCorreo += `\nSubtotal: ${this.formattedPrice(this.subtotal)}`;
+  contenidoCorreo += `\nTax: ${this.formattedPrice(this.tax)}`;
+  contenidoCorreo += `\nTotal: ${this.formattedPrice(this.total)}`;
+
+
+  // Construir los datos del correo 
+  const correo = {
+    destinatario: this.correoDestinatario, // Usar el valor ingresado por el usuario
+    remitente: 'dustgaming25@gmail.com',
+    asunto: 'Carrito de compras',
+    contenido: contenidoCorreo,
+  };
+
+  // Realizar la solicitud POST al servidor para enviar el correo
+  axios.post('http://localhost:3000/enviar-correo', correo)
+    .then(() => {
+      console.log('Correo enviado con éxito');
+    })
+    .catch((error) => {
+      console.error('Error al enviar el correo:', error);
+    });
+},
+
     formattedPrice(price) {
       return new Intl.NumberFormat('en', {
         style: 'currency',
