@@ -3,7 +3,7 @@ const app = express();
 const sendGridMail = require('@sendgrid/mail');
 const cors = require('cors');
 app.use(cors());
-sendGridMail.setApiKey('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'); // Reemplaza con tu API Key de SendGrid
+sendGridMail.setApiKey(''); // Reemplaza con tu API Key de SendGrid
 
 app.use(express.json());
 
